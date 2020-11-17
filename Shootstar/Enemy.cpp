@@ -36,6 +36,20 @@ void Enemy::_process(float delta) {
 	move_and_slide(motion);
 }
 
+void Enemy::hit() {
+	if (hp >= 11) {
+		hp -= 10;
+		speed += 30;
+	}
+	else {
+		kill();
+	}
+}
+
+void Enemy::kill() {
+	queue_free();
+}
+
 void Enemy::FollowPlayer() {
 	motion = Vector2(0, 0);
 	Vector2 result = player->get_global_position() - get_global_position();

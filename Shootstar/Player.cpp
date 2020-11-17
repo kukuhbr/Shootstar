@@ -6,7 +6,6 @@ void Player::_register_methods() {
 	register_method((char*)"_input", &Player::_input);
 	register_method((char*)"_ready", &Player::_ready);
 	register_method((char*)"on_timeout", &Player::on_timeout);
-
 	register_property((char*)"bullet_frequency", &Player::bullet_frequency, 0.2f);
 }
 
@@ -52,32 +51,53 @@ void Player::HandleMouse(InputEventMouseButton *e) {
 }
 
 void Player::_process(float delta) {
-	UpdateMotionFromInput();
-	move_and_slide(motion);
-	TriggerShoot();
+	if (is_alive) {
+		UpdateMotionFromInput();
+		move_and_slide(motion);
+		TriggerShoot();
+		ProcessCollision();
+	}
 }
 
 void Player::on_timeout() {
 	is_bullet_delayed = false;
 }
 
+void Player::ProcessCollision() {
+	for (int i = 0; i < get_slide_count(); i++) {
+		Ref<KinematicCollision2D> col = get_slide_collision(i);
+		Node *n = Object::cast_to<Node>(col->get_collider());
+		Godot::print("I collided with", n->get_name());
+		if (Object::cast_to<Enemy>(n)) {
+			Godot::print("collision with enemy");
+			Object::cast_to<Enemy>(n)->kill();
+			hp -= 10;
+			if (hp <= 0) {
+				kill();
+			}
+		}
+	}
+}
+
+void Player::kill() {
+	is_alive = false;
+}
+
 void Player::UpdateMotionFromInput() {
 	motion = Vector2(0, 0);
-
 	Input *i = Input::get_singleton();
-
 	if (i->is_action_pressed("ui_up"))
-		motion.y -= speed;
+		motion.y -= 1;
 	if (i->is_action_pressed("ui_down"))
-		motion.y += speed;
+		motion.y += 1;
 	if (i->is_action_pressed("ui_left"))
-		motion.x -= speed;
+		motion.x -= 1;
 	if (i->is_action_pressed("ui_right"))
-		motion.x += speed;
+		motion.x += 1;
+	motion = motion.normalized() * speed;
 }
 
 void Player::TriggerShoot() {
-	Godot::print("Trigger shoot");
 	Input *i = Input::get_singleton();
 	if (i->is_action_pressed("shoot") && !is_bullet_delayed) {
 		Vector2 target = (get_global_mouse_position() - get_global_position()).normalized();

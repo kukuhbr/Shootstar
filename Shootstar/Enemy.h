@@ -22,13 +22,16 @@ namespace godot {
 		// Gameplay variables
 	private:
 		Vector2 motion;
+		int hp = 50;
 
 	public:
-		const int speed = 250;
+		int speed = 250;
 		Node2D *player;
 		// Gameplay methods
 	private:
 	public:
 		void FollowPlayer();
+		void hit();
+		void kill();
 	};
 }

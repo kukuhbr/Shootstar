@@ -2,6 +2,7 @@
 
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
+#include <KinematicCollision2D.hpp>
 #include <PackedScene.hpp>
 #include <ResourceLoader.hpp>
 #include <SceneTree.hpp>
@@ -34,9 +35,11 @@ namespace godot {
 		Ref<PackedScene> bullet;
 		bool is_bullet_delayed;
 		Timer* bullet_delay;
+		bool is_alive = true;
 
 	public:
 		real_t bullet_frequency = 0.2;
+		int hp = 100;
 		const int speed = 300;
 		
 	// Gameplay methods
@@ -48,6 +51,8 @@ namespace godot {
 		void HandleMouse(InputEventMouseButton*);
 		void ShootBullet(Vector2, real_t);
 		void TriggerShoot();
+		void ProcessCollision();
+		void kill();
 	};
 }
 
