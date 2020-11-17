@@ -24,7 +24,7 @@ namespace godot {
 		Vector2 motion;
 
 	public:
-		int speed = 250;
+		const int speed = 250;
 		Node2D *player;
 		// Gameplay methods
 	private:

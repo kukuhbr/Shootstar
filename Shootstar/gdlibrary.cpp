@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Enemy.h"
+#include "Bullet.h"
 #include "Level.h"
 
 using namespace godot;
@@ -17,4 +18,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
 	register_class<Player>();
 	register_class<Enemy>();
 	register_class<Level>();
+	register_class<Bullet>();
 }

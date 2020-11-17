@@ -2,7 +2,15 @@
 
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
+#include <PackedScene.hpp>
+#include <ResourceLoader.hpp>
+#include <SceneTree.hpp>
 #include <Input.hpp>
+#include <InputEvent.hpp>
+#include <InputEventMouseButton.hpp>
+#include <GlobalConstants.hpp>
+#include <Timer.hpp>
+#include "Bullet.h"
 
 namespace godot {
 	class Player : public KinematicBody2D
@@ -13,7 +21,9 @@ namespace godot {
 	public:
 		static void _register_methods();
 		void _init();
-		void _process(float delta);
+		void _input(InputEvent*);
+		void _ready();
+		void _process(float);
 
 		Player();
 		~Player();
@@ -21,15 +31,23 @@ namespace godot {
 	// Gameplay variables
 	private:
 		Vector2 motion;
+		Ref<PackedScene> bullet;
+		bool is_bullet_delayed;
+		Timer* bullet_delay;
 
 	public:
+		real_t bullet_frequency = 0.2;
 		const int speed = 300;
-
+		
 	// Gameplay methods
 	private:
 
 	public:
+		void on_timeout();
 		void UpdateMotionFromInput();
+		void HandleMouse(InputEventMouseButton*);
+		void ShootBullet(Vector2, real_t);
+		void TriggerShoot();
 	};
 }
 

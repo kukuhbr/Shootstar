@@ -8,7 +8,7 @@ void Enemy::_register_methods() {
 }
 
 void Enemy::_init() {
-	Godot::print("init");
+	//Godot::print("init");
 }
 
 void Enemy::_ready() {
@@ -21,8 +21,6 @@ void Enemy::_ready() {
 			player = n;
 		}
 	}
-	Godot::print(get_global_position());
-	Godot::print(player->get_global_position());
 }
 
 Enemy::Enemy() {
