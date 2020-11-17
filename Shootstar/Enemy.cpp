@@ -1,6 +1,5 @@
 #include "Enemy.h"
 #include "Commons.h"
-#include "Player.h"
 
 void Enemy::_register_methods() {
 	register_method((char*)"_process", &Enemy::_process);

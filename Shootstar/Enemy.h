@@ -3,6 +3,7 @@
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
 #include <Node2D.hpp>
+#include "Player.h"
 
 namespace godot {
 	class Enemy : public KinematicBody2D
