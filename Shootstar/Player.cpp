@@ -3,7 +3,6 @@
 
 void Player::_register_methods() {
 	register_method((char*)"_process", &Player::_process);
-	register_method((char*)"_input", &Player::_input);
 	register_method((char*)"_ready", &Player::_ready);
 	register_method((char*)"on_timeout", &Player::on_timeout);
 	register_property((char*)"bullet_frequency", &Player::bullet_frequency, 0.2f);
@@ -31,31 +30,11 @@ Player::~Player() {
 
 }
 
-void Player::_input(InputEvent *e) {
-	if (e->get_class() == String("InputEventMouseButton")) {
-		HandleMouse((InputEventMouseButton*)e);
-	}
-}
-
-void Player::HandleMouse(InputEventMouseButton *e) {
-	/*int64_t buttonIndex = e->get_button_index();
-	if (e->is_pressed()) {
-		if (buttonIndex == GlobalConstants::BUTTON_LEFT) {
-			Vector2 target = (get_global_mouse_position() - get_global_position()).normalized();
-			real_t rotation = get_angle_to(get_global_mouse_position());
-			Godot::print("Handle Mouse");
-			Godot::print(target);
-			ShootBullet(target, rotation);
-		}
-	}*/
-}
-
 void Player::_process(float delta) {
 	if (is_alive) {
 		UpdateMotionFromInput();
 		move_and_slide(motion);
 		TriggerShoot();
-		ProcessCollision();
 	}
 }
 
@@ -63,19 +42,12 @@ void Player::on_timeout() {
 	is_bullet_delayed = false;
 }
 
-void Player::ProcessCollision() {
-	for (int i = 0; i < get_slide_count(); i++) {
-		Ref<KinematicCollision2D> col = get_slide_collision(i);
-		Node *n = Object::cast_to<Node>(col->get_collider());
-		Godot::print("I collided with", n->get_name());
-		if (Object::cast_to<Enemy>(n)) {
-			Godot::print("collision with enemy");
-			Object::cast_to<Enemy>(n)->kill();
-			hp -= 10;
-			if (hp <= 0) {
-				kill();
-			}
-		}
+void Player::hit(int val) {
+	if (hp > val) {
+		hp -= val;
+	}
+	else {
+		kill();
 	}
 }
 

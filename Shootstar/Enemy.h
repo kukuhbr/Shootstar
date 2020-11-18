@@ -31,7 +31,8 @@ namespace godot {
 	private:
 	public:
 		void FollowPlayer();
-		void hit();
+		void hit(int);
 		void kill();
+		void ProcessCollision();
 	};
 }

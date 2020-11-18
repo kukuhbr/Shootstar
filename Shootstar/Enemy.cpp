@@ -8,7 +8,7 @@ void Enemy::_register_methods() {
 }
 
 void Enemy::_init() {
-	//Godot::print("init");
+
 }
 
 void Enemy::_ready() {
@@ -34,11 +34,26 @@ Enemy::~Enemy() {
 void Enemy::_process(float delta) {
 	FollowPlayer();
 	move_and_slide(motion);
+	ProcessCollision();
 }
 
-void Enemy::hit() {
-	if (hp >= 11) {
-		hp -= 10;
+void Enemy::ProcessCollision() {
+	for (int i = 0; i < get_slide_count(); i++) {
+		Ref<KinematicCollision2D> col = get_slide_collision(i);
+		Node *n = Object::cast_to<Node>(col->get_collider());
+		if (Object::cast_to<Player>(n)) {
+			Player *p = Object::cast_to<Player>(n);
+			if (p->is_alive) {
+				Object::cast_to<Player>(n)->hit(10);
+				kill();
+			}
+		}
+	}
+}
+
+void Enemy::hit(int val) {
+	if (hp > val) {
+		hp -= val;
 		speed += 30;
 	}
 	else {
@@ -54,6 +69,4 @@ void Enemy::FollowPlayer() {
 	motion = Vector2(0, 0);
 	Vector2 result = player->get_global_position() - get_global_position();
 	motion = result.normalized() * speed;
-	//Godot::print(result.normalized());
-	//player pos - enemy pos, normalize, * speed
 }

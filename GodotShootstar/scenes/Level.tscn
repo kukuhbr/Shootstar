@@ -9,7 +9,6 @@
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 0, 0 )
 bullet_frequency = 0.3
 
 [node name="Enemy" parent="." instance=ExtResource( 2 )]
@@ -20,4 +19,4 @@ position = Vector2( 500.032, 200 )
 [node name="Enemy3" parent="." instance=ExtResource( 2 )]
 position = Vector2( -400, 200 )
 
-[node name="StaticBody2D" parent="." instance=ExtResource( 4 )]
+[node name="Walls" parent="." instance=ExtResource( 4 )]

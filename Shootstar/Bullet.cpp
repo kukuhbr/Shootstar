@@ -34,7 +34,7 @@ void Bullet::set_target(Vector2 v, real_t r) {
 
 void Bullet::on_body_entered(PhysicsBody2D *n) {
 	if (Object::cast_to<Enemy>(n)) {
-		Object::cast_to<Enemy>(n)->hit();
+		Object::cast_to<Enemy>(n)->hit(10);
 		kill();
 	}
 }
