@@ -13,6 +13,7 @@ void Enemy::_init() {
 }
 
 void Enemy::_ready() {
+	Manager::manager_singleton->append_child(this, 2);
 
 	Node2D *n;
 	int64_t childCount = get_parent()->get_child_count();
@@ -56,7 +57,7 @@ void Enemy::ProcessCollision() {
 void Enemy::hit(int val) {
 	if (hp > val) {
 		hp -= val;
-		speed += 30;
+		speed += 35;
 		Object::cast_to<Player>(player)->AddScore(10);
 	}
 	else {

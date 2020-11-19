@@ -94,7 +94,6 @@ void Player::TriggerShoot() {
 
 void Player::ShootBullet(Vector2 direction, real_t rotation) {
 	Bullet *bullet_instance = Object::cast_to<Bullet>(bullet->instance());
-	Manager::manager_singleton->append_child(bullet_instance, 1);
 	get_parent()->add_child(bullet_instance);
 	bullet_instance->set_target(direction, rotation);
 	bullet_instance->set_global_position(get_global_position());

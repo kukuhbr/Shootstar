@@ -17,6 +17,7 @@ void Level::_init() {}
 void Level::_ready() {
 	ResourceLoader *loader = ResourceLoader::get_singleton();
 	enemy = loader->load("res://scenes/Enemy.tscn");
+	enemy_medic = loader->load("res://scenes/EnemyMedic.tscn");
 	wave_delay = Timer::_new();
 	wave_delay->connect("timeout", this, "on_timeout");
 	wave_delay->set_wait_time(delay_time);
@@ -51,14 +52,22 @@ void Level::SummonEnemyWave(int n) {
 		int rand_x = rng->randi_range(20-x_dim, x_dim-20);
 		int rand_y = rng->randi_range(20-y_dim, y_dim-20);
 		Vector2 pos = Vector2(rand_x, rand_y);
-		SummonEnemy(pos, 0);
+		int enemy_type = rng->randi_range(0, 3);
+		Godot::print("enemy type is {0}", String::num(enemy_type));
+		SummonEnemy(pos, enemy_type);
 	}
 }
 
 void Level::SummonEnemy(Vector2 pos, int type) {
-	total_enemy_count += 1;
-	Enemy* enemy_instance = Object::cast_to<Enemy>(enemy->instance());
-	Manager::manager_singleton->append_child(enemy_instance, 2);
-	add_child(enemy_instance);
-	enemy_instance->set_global_position(pos);
+	if (type == 0) {
+		EnemyMedic* medic_instance = Object::cast_to<EnemyMedic>(enemy_medic->instance());
+		//Manager::manager_singleton->append_child(medic_instance, 2);
+		add_child(medic_instance);
+		medic_instance->set_global_position(pos);
+	}
+	else {
+		Enemy* enemy_instance = Object::cast_to<Enemy>(enemy->instance());
+		add_child(enemy_instance);
+		enemy_instance->set_global_position(pos);
+	}
 }

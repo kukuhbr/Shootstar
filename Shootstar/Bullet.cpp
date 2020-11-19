@@ -6,6 +6,7 @@ void Bullet::_register_methods() {
 	register_method((char*)"_ready", &Bullet::_ready);
 	register_method((char*)"on_timeout", &Bullet::on_timeout);
 	register_method((char*)"on_body_entered", &Bullet::on_body_entered);
+	register_property((char*)"speed", &Bullet::speed, 600);
 }
 
 Bullet::Bullet() {
@@ -17,6 +18,8 @@ Bullet::~Bullet() {
 void Bullet::_init() {}
 
 void Bullet::_ready() {
+	Manager::manager_singleton->append_child(this, 1);
+
 	lifetime = Timer::_new();
 	lifetime->connect("timeout", this, "on_timeout");
 	lifetime->set_wait_time(4.0);
@@ -35,6 +38,10 @@ void Bullet::set_target(Vector2 v, real_t r) {
 void Bullet::on_body_entered(PhysicsBody2D *n) {
 	if (Object::cast_to<Enemy>(n)) {
 		Object::cast_to<Enemy>(n)->hit(10);
+		kill();
+	}
+	if (Object::cast_to<EnemyMedic>(n)) {
+		Object::cast_to<EnemyMedic>(n)->hit(10);
 		kill();
 	}
 }

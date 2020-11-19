@@ -9,6 +9,7 @@
 #include <vector>
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyMedic.h"
 #include "Manager.h"
 
 namespace godot {
@@ -29,10 +30,10 @@ namespace godot {
 	// Gameplay variables
 	private:
 		Ref<PackedScene> enemy;
+		Ref<PackedScene> enemy_medic;
 		Timer* wave_delay;
 		int x_dim = 1500;
 		int y_dim = 900;
-		int total_enemy_count = 0;
 	public:
 		float delay_time = 3.0f; // second
 		float delay_shrink = .99f; // percentage

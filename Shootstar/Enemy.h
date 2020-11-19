@@ -29,6 +29,7 @@ namespace godot {
 
 	public:
 		int speed = 250;
+		float heal_range = 70;
 		Node2D *player;
 		// Gameplay methods
 	private:

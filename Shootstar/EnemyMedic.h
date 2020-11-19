@@ -3,6 +3,9 @@
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
 #include <Node2D.hpp>
+#include <vector>
+#include "Manager.h"
+#include "Player.h"
 #include "Enemy.h"
 
 namespace godot {
@@ -10,7 +13,7 @@ namespace godot {
 	{
 		// Godot structure
 	private:
-		GODOT_CLASS(Enemy, KinematicBody2D)
+		GODOT_CLASS(EnemyMedic, KinematicBody2D)
 	public:
 		static void _register_methods();
 		void _init();
@@ -22,16 +25,26 @@ namespace godot {
 		// Gameplay variables
 	private:
 		Vector2 motion;
-		int hp = 50;
-		bool have_hit_player = false;
+		int hp = 30;
+		bool have_heal = false;
+		real_t heal_range = 80;
 
 	public:
-		int speed = 250;
+		Timer* heal_delay;
+		int heal_power = 5;
+		real_t heal_frequency = 0.5;
+		int speed = 300;
 		Node2D *player;
+		Node2D *target;
 		// Gameplay methods
 	private:
+		real_t distance_to_target();
 	public:
-		void FollowPlayer();
+		void on_timeout();
+		bool is_target_exist();
+		void FindTarget();
+		void FollowTarget();
+		void HealTarget();
 		void hit(int);
 		void kill();
 		void ProcessCollision();

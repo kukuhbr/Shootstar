@@ -5,6 +5,7 @@
 #include <Node2D.hpp>
 #include <Timer.hpp>
 #include "Enemy.h"
+#include "EnemyMedic.h"
 #include "Manager.h"
 
 namespace godot {
@@ -25,7 +26,7 @@ namespace godot {
 	private:
 		Vector2 direction;
 		real_t rotation;
-		const int speed = 600;
+		int speed = 600;
 	public:
 		Timer* lifetime;
 		// Gameplay methods

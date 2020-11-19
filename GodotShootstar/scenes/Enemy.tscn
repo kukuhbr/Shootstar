@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Enemy.gdns" type="Script" id=2]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 20.6115, 19.0653 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.745098, 0.223529, 0.223529, 1 )
 
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -26,6 +29,7 @@ margin_left = -25.0
 margin_top = 15.0
 margin_right = 25.0
 margin_bottom = 25.0
+custom_styles/fg = SubResource( 2 )
 max_value = 50.0
 step = 1.0
 percent_visible = false
