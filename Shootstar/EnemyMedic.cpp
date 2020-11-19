@@ -17,6 +17,7 @@ void EnemyMedic::_init() {
 }
 
 void EnemyMedic::_ready() {
+	Manager::manager_singleton->append_child(this, 3);
 
 	Node2D *n;
 	int64_t childCount = get_parent()->get_child_count();
@@ -74,6 +75,7 @@ void EnemyMedic::hit(int val) {
 
 void EnemyMedic::kill() {
 	hp = 0;
+	Manager::manager_singleton->remove_child(this, 3);
 	queue_free();
 }
 
@@ -84,11 +86,7 @@ void EnemyMedic::FindTarget() {
 	Node2D *temp_target = nullptr;
 	if (all_enemy.size() > 0) {
 		//Find injured
-		for (auto it = all_enemy.begin(); it != all_enemy.end(); ++it) {
-			if (Object::cast_to<Enemy>(*it)->hp < 50) {
-				injured.push_back(*it);
-			}
-		}
+		injured = Manager::manager_singleton->injured;
 		if (injured.empty()) {
 			injured = all_enemy;
 		}
