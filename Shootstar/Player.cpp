@@ -64,8 +64,8 @@ void Player::hit(int val) {
 }
 
 void Player::kill() {
-	is_alive = false;
 	hp = 0;
+	is_alive = false;
 }
 
 void Player::UpdateMotionFromInput() {

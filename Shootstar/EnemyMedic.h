@@ -38,15 +38,15 @@ namespace godot {
 		Node2D *target;
 		// Gameplay methods
 	private:
-		real_t distance_to_target();
+		real_t distance_to(Node2D*);
 	public:
 		void on_timeout();
 		bool is_target_exist();
 		void FindTarget();
 		void FollowTarget();
 		void HealTarget();
+		void CheckTargetHealth();
 		void hit(int);
 		void kill();
-		void ProcessCollision();
 	};
 }

@@ -51,29 +51,12 @@ void EnemyMedic::_process(float delta) {
 	if (is_target_exist()) {
 		FollowTarget();
 		HealTarget();
-		//Godot::print("target exist");
+		CheckTargetHealth();
 	}
 	else {
-		//Godot::print("target unavailable");
 		FindTarget();
 	}
 	move_and_slide(motion);
-	//ProcessCollision();
-}
-
-void EnemyMedic::ProcessCollision() {
-	/*for (int i = 0; i < get_slide_count(); i++) {
-		Ref<KinematicCollision2D> col = get_slide_collision(i);
-		Node *n = Object::cast_to<Node>(col->get_collider());
-		if (Object::cast_to<Player>(n)) {
-			Player *p = Object::cast_to<Player>(n);
-			if (p->is_alive && !have_hit_player) {
-				have_hit_player = true;
-				Object::cast_to<Player>(n)->hit(10);
-				kill();
-			}
-		}
-	}*/
 }
 
 void EnemyMedic::hit(int val) {
@@ -91,15 +74,36 @@ void EnemyMedic::hit(int val) {
 
 void EnemyMedic::kill() {
 	hp = 0;
-	//Manager::manager_singleton->remove_child(this, 3);
 	queue_free();
 }
 
 void EnemyMedic::FindTarget() {
-	std::vector<Node2D*> temp = Manager::manager_singleton->enemies;
-	//std::vector<Enemy*> targets(temp.begin(), temp.end());
-	if (temp.size() > 0) {
-		target = temp[0];
+	std::vector<Node2D*> all_enemy = Manager::manager_singleton->enemies;
+	std::vector<Node2D*> injured;
+	real_t min;
+	Node2D *temp_target = nullptr;
+	if (all_enemy.size() > 0) {
+		//Find injured
+		for (auto it = all_enemy.begin(); it != all_enemy.end(); ++it) {
+			if (Object::cast_to<Enemy>(*it)->hp < 50) {
+				injured.push_back(*it);
+			}
+		}
+		if (injured.empty()) {
+			injured = all_enemy;
+		}
+		//Find closest
+		for (auto it = injured.begin(); it != injured.end(); ++it) {
+			if (it == injured.begin()) {
+				temp_target = (*it);
+				min = distance_to(*it);
+			}
+			if (distance_to(*it) < min) {
+				min = distance_to(*it);
+				temp_target = (*it);
+			}
+		}
+		target = temp_target;
 	}
 }
 
@@ -117,23 +121,27 @@ bool EnemyMedic::is_target_exist() {
 	}
 }
 
-real_t EnemyMedic::distance_to_target() {
-	if (target) {
-		return get_global_position().distance_to(target->get_global_position());
-	}
+real_t EnemyMedic::distance_to(Node2D* t) {
+	return get_global_position().distance_to(t->get_global_position());
 }
 
 void EnemyMedic::FollowTarget() {
 	motion = Vector2(0, 0);
-	if (distance_to_target() > (heal_range - 20)) {
+	if (distance_to(target) > (heal_range - 20)) {
 		Vector2 result = target->get_global_position() - get_global_position();
 		motion = result.normalized() * speed;
 	}
 }
 
 void EnemyMedic::HealTarget() {
-	if (!have_heal && distance_to_target() <= heal_range) {
-		have_heal = false;
+	if (!have_heal && distance_to(target) <= heal_range) {
+		have_heal = true;
 		Object::cast_to<Enemy>(target)->heal(heal_power);
+	}
+}
+
+void EnemyMedic::CheckTargetHealth() {
+	if (Object::cast_to<Enemy>(target)->hp == Object::cast_to<Enemy>(target)->max_hp) {
+		target = nullptr;
 	}
 }

@@ -24,12 +24,12 @@ namespace godot {
 		// Gameplay variables
 	private:
 		Vector2 motion;
-		int hp = 50;
 		bool have_hit_player = false;
 
 	public:
+		int hp = 50;
+		int max_hp = 50;
 		int speed = 250;
-		float heal_range = 70;
 		Node2D *player;
 		// Gameplay methods
 	private:

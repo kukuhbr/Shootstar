@@ -6,6 +6,7 @@ void Enemy::_register_methods() {
 	register_method((char*)"_ready", &Enemy::_ready);
 	register_method((char*)"_init", &Enemy::_init);
 	register_property((char*)"hp", &Enemy::hp, 50);
+	register_property((char*)"speed", &Enemy::speed, 250);
 }
 
 void Enemy::_init() {

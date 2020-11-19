@@ -53,7 +53,6 @@ void Level::SummonEnemyWave(int n) {
 		int rand_y = rng->randi_range(20-y_dim, y_dim-20);
 		Vector2 pos = Vector2(rand_x, rand_y);
 		int enemy_type = rng->randi_range(0, 3);
-		Godot::print("enemy type is {0}", String::num(enemy_type));
 		SummonEnemy(pos, enemy_type);
 	}
 }
