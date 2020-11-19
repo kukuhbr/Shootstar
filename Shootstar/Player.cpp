@@ -38,6 +38,7 @@ void Player::_process(float delta) {
 		UpdateMotionFromInput();
 		move_and_slide(motion);
 		TriggerShoot();
+		UpgradePlayer();
 	}
 }
 
@@ -101,5 +102,21 @@ void Player::ShootBullet(Vector2 direction, real_t rotation) {
 
 void Player::AddScore(int val) {
 	score += val;
+}
+
+void Player::UpgradePlayer() {
+	if (score < 400) {
+		bullet_frequency = 0.25f;
+	}
+	else if (400 <= score < 1500) {
+		bullet_frequency = 0.12f;
+	}
+	else if (1500 <= score < 4000) {
+		bullet_frequency = 0.08;
+	}
+	else if (4000 <= score) {
+		bullet_frequency = float(320 / float(score));
+	}
+	bullet_delay->set_wait_time(bullet_frequency);
 }
 

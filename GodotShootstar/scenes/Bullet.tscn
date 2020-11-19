@@ -8,7 +8,6 @@ extents = Vector2( 17.1639, 5.36157 )
 
 [node name="Bullet" type="Area2D"]
 script = ExtResource( 2 )
-speed = 700
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.53125, 0.15625 )

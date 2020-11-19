@@ -34,7 +34,7 @@ namespace godot {
 		Timer* bullet_delay;
 
 	public:
-		real_t bullet_frequency = 0.2;
+		real_t bullet_frequency = 0.25;
 		int hp = 100;
 		bool is_alive = true;
 		const int speed = 300;
@@ -52,6 +52,7 @@ namespace godot {
 		void heal(int);
 		void hit(int);
 		void AddScore(int);
+		void UpgradePlayer();
 	};
 }
 
