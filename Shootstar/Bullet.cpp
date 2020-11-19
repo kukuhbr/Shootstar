@@ -19,7 +19,7 @@ void Bullet::_init() {}
 void Bullet::_ready() {
 	lifetime = Timer::_new();
 	lifetime->connect("timeout", this, "on_timeout");
-	lifetime->set_wait_time(5.0);
+	lifetime->set_wait_time(4.0);
 	lifetime->set_one_shot(true);
 	add_child(lifetime);
 	lifetime->start();
@@ -49,5 +49,6 @@ void Bullet::on_timeout() {
 }
 
 void Bullet::kill() {
+	Manager::manager_singleton->remove_child(this, 1);
 	queue_free();
 }

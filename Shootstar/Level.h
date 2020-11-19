@@ -5,8 +5,11 @@
 #include <ResourceLoader.hpp>
 #include <PackedScene.hpp>
 #include <Timer.hpp>
+#include <RandomNumberGenerator.hpp>
+#include <vector>
 #include "Player.h"
 #include "Enemy.h"
+#include "Manager.h"
 
 namespace godot {
 	class Level : public Node2D
@@ -27,7 +30,14 @@ namespace godot {
 	private:
 		Ref<PackedScene> enemy;
 		Timer* wave_delay;
+		int x_dim = 1500;
+		int y_dim = 900;
+		int total_enemy_count = 0;
 	public:
+		float delay_time = 3.0f; // second
+		float delay_shrink = .99f; // percentage
+		float enemy_count = 3.0f;
+		float enemy_grow = .3f; // percentage
 	// Gameplay methods
 	private:
 	public:

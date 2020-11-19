@@ -2,13 +2,11 @@
 
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
-#include <KinematicCollision2D.hpp>
 #include <Node2D.hpp>
-#include "Player.h"
-#include "Manager.h"
+#include "Enemy.h"
 
 namespace godot {
-	class Enemy : public KinematicBody2D
+	class EnemyMedic : public KinematicBody2D
 	{
 		// Godot structure
 	private:
@@ -19,8 +17,8 @@ namespace godot {
 		void _ready();
 		void _process(float delta);
 
-		Enemy();
-		~Enemy();
+		EnemyMedic();
+		~EnemyMedic();
 		// Gameplay variables
 	private:
 		Vector2 motion;
@@ -34,7 +32,6 @@ namespace godot {
 	private:
 	public:
 		void FollowPlayer();
-		void heal(int);
 		void hit(int);
 		void kill();
 		void ProcessCollision();

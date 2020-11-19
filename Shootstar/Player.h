@@ -8,6 +8,8 @@
 #include <Input.hpp>
 #include <Timer.hpp>
 #include "Bullet.h"
+#include "Level.h"
+#include "Manager.h"
 
 namespace godot {
 	class Player : public KinematicBody2D
@@ -36,17 +38,20 @@ namespace godot {
 		int hp = 100;
 		bool is_alive = true;
 		const int speed = 300;
+		int score;
 		
 	// Gameplay methods
 	private:
+		void UpdateMotionFromInput();
+		void TriggerShoot();
+		void ShootBullet(Vector2, real_t);
 
 	public:
 		void on_timeout();
-		void UpdateMotionFromInput();
-		void ShootBullet(Vector2, real_t);
-		void TriggerShoot();
 		void kill();
+		void heal(int);
 		void hit(int);
+		void AddScore(int);
 	};
 }
 

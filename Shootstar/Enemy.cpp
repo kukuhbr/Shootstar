@@ -5,6 +5,7 @@ void Enemy::_register_methods() {
 	register_method((char*)"_process", &Enemy::_process);
 	register_method((char*)"_ready", &Enemy::_ready);
 	register_method((char*)"_init", &Enemy::_init);
+	register_property((char*)"hp", &Enemy::hp, 50);
 }
 
 void Enemy::_init() {
@@ -43,7 +44,8 @@ void Enemy::ProcessCollision() {
 		Node *n = Object::cast_to<Node>(col->get_collider());
 		if (Object::cast_to<Player>(n)) {
 			Player *p = Object::cast_to<Player>(n);
-			if (p->is_alive) {
+			if (p->is_alive && !have_hit_player) {
+				have_hit_player = true;
 				Object::cast_to<Player>(n)->hit(10);
 				kill();
 			}
@@ -55,13 +57,27 @@ void Enemy::hit(int val) {
 	if (hp > val) {
 		hp -= val;
 		speed += 30;
+		Object::cast_to<Player>(player)->AddScore(10);
 	}
 	else {
+		Object::cast_to<Player>(player)->AddScore(60);
+		Object::cast_to<Player>(player)->heal(5);
 		kill();
 	}
 }
 
+void Enemy::heal(int val) {
+	if (hp + val <= 50) {
+		hp += val;
+	}
+	else {
+		hp = 50;
+	}
+}
+
 void Enemy::kill() {
+	hp = 0;
+	Manager::manager_singleton->remove_child(this, 2);
 	queue_free();
 }
 

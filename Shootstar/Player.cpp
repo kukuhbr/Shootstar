@@ -6,6 +6,8 @@ void Player::_register_methods() {
 	register_method((char*)"_ready", &Player::_ready);
 	register_method((char*)"on_timeout", &Player::on_timeout);
 	register_property((char*)"bullet_frequency", &Player::bullet_frequency, 0.2f);
+	register_property((char*)"hp", &Player::hp, 100);
+	register_property((char*)"score", &Player::score, 0);
 }
 
 void Player::_init() {}
@@ -20,6 +22,7 @@ void Player::_ready() {
 	bullet_delay->set_one_shot(false);
 	add_child(bullet_delay);
 	bullet_delay->start();
+	score = 0;
 }
 
 Player::Player() {
@@ -42,6 +45,15 @@ void Player::on_timeout() {
 	is_bullet_delayed = false;
 }
 
+void Player::heal(int val) {
+	if (hp + val <= 100) {
+		hp += val;
+	}
+	else {
+		hp = 100;
+	}
+}
+
 void Player::hit(int val) {
 	if (hp > val) {
 		hp -= val;
@@ -53,6 +65,7 @@ void Player::hit(int val) {
 
 void Player::kill() {
 	is_alive = false;
+	hp = 0;
 }
 
 void Player::UpdateMotionFromInput() {
@@ -81,8 +94,13 @@ void Player::TriggerShoot() {
 
 void Player::ShootBullet(Vector2 direction, real_t rotation) {
 	Bullet *bullet_instance = Object::cast_to<Bullet>(bullet->instance());
+	Manager::manager_singleton->append_child(bullet_instance, 1);
 	get_parent()->add_child(bullet_instance);
 	bullet_instance->set_target(direction, rotation);
 	bullet_instance->set_global_position(get_global_position());
+}
+
+void Player::AddScore(int val) {
+	score += val;
 }
 

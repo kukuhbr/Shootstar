@@ -19,6 +19,10 @@ config/name="GodotShootstar"
 run/main_scene="res://scenes/Level.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Manager="*res://scripts/Manager.gdns"
+
 [input]
 
 ui_left={

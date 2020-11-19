@@ -5,6 +5,7 @@
 #include <Node2D.hpp>
 #include <Timer.hpp>
 #include "Enemy.h"
+#include "Manager.h"
 
 namespace godot {
 	class Bullet : public Area2D

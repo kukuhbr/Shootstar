@@ -154,15 +154,19 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyMedic.cpp" />
     <ClCompile Include="gdlibrary.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Commons.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyMedic.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
