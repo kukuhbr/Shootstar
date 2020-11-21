@@ -11,27 +11,27 @@ namespace godot {
 
 	class QuadTree
 	{
-		QuadTree(int, int, int, Vector2, int);
-		~QuadTree();
-
+	private:
 		int height;
 		int width;
 		int depth;
+		int num_instance;
+		bool has_leaf;
 		Vector2 dimension;
 		Vector2 pivot;
-
-		/*QuadTree* AtasKanan;
-		QuadTree* AtasKiri;
-		QuadTree* BawahKanan;
-		QuadTree* BawahKiri;*/
-		vector<QuadTree*> partition;
+		std::vector<QuadTree*> partition;
+	public:
+		QuadTree(int, int, int, Vector2, int);
+		~QuadTree();
 		QuadTreeLeaf leaf;
 
-		bool has_leaf;
+	private:
+		int FindQuadrant(Vector2);
+	public:
+		static void DestroyRecursive(QuadTree*);
 		void FillTree(Node2D*);
 		QuadTree* GetData(QuadTree*, Vector2);
-		void DestroyRecursive(QuadTree*);
-		int FindQuadrant(Vector2)
+		void Print();
 	};
 }
 

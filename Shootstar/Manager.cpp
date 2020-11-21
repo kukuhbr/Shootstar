@@ -6,6 +6,7 @@ Manager* Manager::manager_singleton;
 void Manager::_register_methods() {
 	register_method((char*)"_ready", &Manager::_ready);
 	register_method((char*)"_process", &Manager::_process);
+	register_method((char*)"on_timeout", &Manager::on_timeout);
 }
 
 void Manager::_init() {}
@@ -16,6 +17,19 @@ void Manager::_process(float delta) {
 
 void Manager::_ready() {
 	Manager::manager_singleton = this;
+	delay = Timer::_new();
+	delay->connect("timeout", this, "on_timeout");
+	delay->set_wait_time(1.0f);
+	delay->set_one_shot(false);
+	add_child(delay);
+	delay->start();
+}
+
+void Manager::on_timeout() {
+	Godot::print("Lets delete");
+	QuadTree::DestroyRecursive(injured_tree);
+	Godot::print("delete success");
+	is_make_tree = true;
 }
 
 Manager::Manager() {
@@ -27,19 +41,34 @@ Manager::~Manager() {
 
 void Manager::CollectInjured() {
 	//Clear healthy enemies
-	auto iter = injured.begin();
+	/*auto iter = injured.begin();
 	while (iter != injured.end()) {
 		if (Object::cast_to<Enemy>(*iter)->hp == 50) {
 			iter = injured.erase(iter);
 		} else {
 			++iter;
 		}
-	}
+	}*/
+	injured.clear();
 	//Push to Injured
 	for (auto it = enemies.begin(); it != enemies.end(); ++it) {
 		if (Object::cast_to<Enemy>(*it)->hp < 50) {
 			injured.push_back(*it);
 		}
+	}
+	//Create Injured QuadTree
+	if (injured.size() > 0 && is_make_tree) {
+		/*if (injured_tree) {
+			delete injured_tree;
+			injured_tree = nullptr;
+		}*/
+		is_make_tree = false;
+		injured_tree = new QuadTree(x_dim, y_dim, 2, Vector2(0, 0), -1);
+		for (auto it = injured.begin(); it != injured.end(); ++it) {
+			injured_tree->FillTree(*it);
+		}
+		injured_tree->Print();
+		Godot::print("Print is successful");
 	}
 }
 

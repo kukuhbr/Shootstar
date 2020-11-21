@@ -55,7 +55,7 @@ void EnemyMedic::_process(float delta) {
 		CheckTargetHealth();
 	}
 	else {
-		FindTarget();
+		//FindTarget();
 	}
 	move_and_slide(motion);
 }
@@ -80,28 +80,23 @@ void EnemyMedic::kill() {
 }
 
 void EnemyMedic::FindTarget() {
-	std::vector<Node2D*> all_enemy = Manager::manager_singleton->enemies;
-	std::vector<Node2D*> injured;
-	real_t min;
-	Node2D *temp_target = nullptr;
-	if (all_enemy.size() > 0) {
-		//Find injured
-		injured = Manager::manager_singleton->injured;
-		if (injured.empty()) {
-			injured = all_enemy;
+	////Find injured
+	//injured = Manager::manager_singleton->injured;
+	//if (injured.empty()) {
+	//	injured = all_enemy;
+	//}
+	//Find closest injured enemy
+	QuadTree* tree = Manager::manager_singleton->injured_tree;
+	if (tree) {
+		QuadTree* closest_tree = tree->GetData(tree, get_global_position());
+		//target = closest_tree->leaf.data.front();
+		if (!closest_tree->leaf.data.empty()) {
+			target = closest_tree->leaf.data.front();
+			//Godot::print("Found my target!");
 		}
-		//Find closest
-		for (auto it = injured.begin(); it != injured.end(); ++it) {
-			if (it == injured.begin()) {
-				temp_target = (*it);
-				min = distance_to(*it);
-			}
-			if (distance_to(*it) < min) {
-				min = distance_to(*it);
-				temp_target = (*it);
-			}
+		else {
+			target = nullptr;
 		}
-		target = temp_target;
 	}
 }
 

@@ -40,6 +40,7 @@ void Player::_process(float delta) {
 		TriggerShoot();
 		UpgradePlayer();
 	}
+	//Godot::print(get_global_position());
 }
 
 void Player::on_timeout() {

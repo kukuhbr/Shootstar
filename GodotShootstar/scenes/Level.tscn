@@ -34,7 +34,7 @@ heal_range = 50.0
 
 [node name="Walls" parent="." instance=ExtResource( 4 )]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Floor" type="Sprite" parent="."]
 scale = Vector2( 6, 3.5 )
 z_index = -1
 texture = ExtResource( 6 )

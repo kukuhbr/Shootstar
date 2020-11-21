@@ -7,6 +7,7 @@
 #include "Manager.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "QuadTree.h"
 
 namespace godot {
 	class EnemyMedic : public KinematicBody2D

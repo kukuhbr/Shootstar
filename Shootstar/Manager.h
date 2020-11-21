@@ -5,6 +5,7 @@
 #include <Node2D.hpp>
 #include <vector>
 #include <algorithm>
+#include <Timer.hpp>
 #include "Enemy.h"
 #include "QuadTree.h"
 
@@ -25,17 +26,23 @@ namespace godot {
 
 		// Gameplay variables
 	private:
+		Timer* delay;
+		bool is_make_tree = true;
 	public:
 		static Manager *manager_singleton;
 		std::vector<Node2D*> bullets;
 		std::vector<Node2D*> enemies;
 		std::vector<Node2D*> medics;
 		std::vector<Node2D*> injured;
+		QuadTree* injured_tree;
+		int x_dim = 1500;
+		int y_dim = 900;
 	// Gameplay methods
 	private:
 	public:
 		void append_child(Node2D*, int);
 		void remove_child(Node2D*, int);
 		void CollectInjured();
+		void on_timeout();
 	};
 }
