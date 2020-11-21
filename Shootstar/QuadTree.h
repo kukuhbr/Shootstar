@@ -29,8 +29,9 @@ namespace godot {
 		int FindQuadrant(Vector2);
 	public:
 		static void DestroyRecursive(QuadTree*);
+		static void ClearTreeRecursive(QuadTree*);
 		void FillTree(Node2D*);
-		QuadTree* GetData(QuadTree*, Vector2);
+		QuadTree* GetData(Vector2);
 		void Print();
 	};
 }

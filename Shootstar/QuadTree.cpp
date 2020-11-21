@@ -56,6 +56,23 @@ void QuadTree::DestroyRecursive(QuadTree* q) {
 	}
 }
 
+void QuadTree::ClearTreeRecursive(QuadTree* q) {
+	if (q) {
+		q->num_instance = 0;
+		if (q->depth == 0) {
+			if (q->has_leaf) {
+				q->leaf.data.clear();
+				q->has_leaf = false;
+			}
+		}
+		else {
+			for (int i = 0; i < 4; i++) {
+				ClearTreeRecursive(q->partition[i]);
+			}
+		}
+	}
+}
+
 QuadTree::~QuadTree() {
 	DestroyRecursive(this);
 }
@@ -74,40 +91,39 @@ void QuadTree::FillTree(Node2D* node) {
 	reference->leaf.data.push_back(node);
 }
 
-QuadTree* QuadTree::GetData(QuadTree* quad, Vector2 v) {
-	if (quad->depth == 0) {
-		if (quad->has_leaf) {
-			return this;
+QuadTree* QuadTree::GetData(Vector2 v) {
+	if (num_instance > 0) {
+		if (depth == 0) {
+			if (has_leaf) {
+				return this;
+			}
+			else {
+				return nullptr;
+			}
 		}
-		else {
-			return nullptr;
+		int quadrant = FindQuadrant(v);
+		vector<int> order;
+		order.push_back(quadrant);
+		vector<int> normal = { 0,1,2,3 };
+		for (auto it = normal.begin(); it != normal.end(); ++it) {
+			if (std::find(order.begin(), order.end(), (*it)) == order.end()) {
+				order.push_back(*it);
+			}
 		}
-	}
-	int quadrant = quad->FindQuadrant(v);
-	vector<int> order;
-	order.push_back(quadrant);
-	vector<int> temp;
-	temp.push_back(0);
-	temp.push_back(1);
-	temp.push_back(2);
-	temp.push_back(3);
-	for (auto it = temp.begin(); it != temp.end(); ++it) {
-		if (std::find(order.begin(), order.end(), (*it)) == order.end()) {
-			order.push_back(*it);
-		}
-	}
-	auto iter = order.begin();
-	while (iter != order.end()) {
-		QuadTree* retval = GetData(quad->partition[*iter], v);
-		if (retval != nullptr) {
-			return retval;
-			iter = order.end();
-		}
-		else {
+		auto iter = order.begin();
+		while (iter != order.end()) {
+			QuadTree* retval = partition[*iter]->GetData(v);
+			if (retval) {
+				return retval;
+			}
 			++iter;
 		}
+		return nullptr;
 	}
-	return nullptr;
+	else {
+		return nullptr;
+	}
+
 }
 
 int QuadTree::FindQuadrant(Vector2 v) {

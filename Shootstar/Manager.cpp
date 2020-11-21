@@ -17,6 +17,8 @@ void Manager::_process(float delta) {
 
 void Manager::_ready() {
 	Manager::manager_singleton = this;
+	injured_tree = new QuadTree(x_dim, y_dim, 2, Vector2(0, 0), -1);
+
 	delay = Timer::_new();
 	delay->connect("timeout", this, "on_timeout");
 	delay->set_wait_time(1.0f);
@@ -26,9 +28,7 @@ void Manager::_ready() {
 }
 
 void Manager::on_timeout() {
-	Godot::print("Lets delete");
-	QuadTree::DestroyRecursive(injured_tree);
-	Godot::print("delete success");
+	QuadTree::ClearTreeRecursive(injured_tree);
 	is_make_tree = true;
 }
 
@@ -58,17 +58,11 @@ void Manager::CollectInjured() {
 	}
 	//Create Injured QuadTree
 	if (injured.size() > 0 && is_make_tree) {
-		/*if (injured_tree) {
-			delete injured_tree;
-			injured_tree = nullptr;
-		}*/
 		is_make_tree = false;
-		injured_tree = new QuadTree(x_dim, y_dim, 2, Vector2(0, 0), -1);
 		for (auto it = injured.begin(); it != injured.end(); ++it) {
 			injured_tree->FillTree(*it);
 		}
 		injured_tree->Print();
-		Godot::print("Print is successful");
 	}
 }
 

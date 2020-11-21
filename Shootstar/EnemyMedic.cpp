@@ -49,13 +49,11 @@ void EnemyMedic::on_timeout() {
 }
 
 void EnemyMedic::_process(float delta) {
+	FindTarget();
 	if (is_target_exist()) {
 		FollowTarget();
 		HealTarget();
 		CheckTargetHealth();
-	}
-	else {
-		//FindTarget();
 	}
 	move_and_slide(motion);
 }
@@ -80,22 +78,19 @@ void EnemyMedic::kill() {
 }
 
 void EnemyMedic::FindTarget() {
-	////Find injured
-	//injured = Manager::manager_singleton->injured;
-	//if (injured.empty()) {
-	//	injured = all_enemy;
-	//}
 	//Find closest injured enemy
 	QuadTree* tree = Manager::manager_singleton->injured_tree;
 	if (tree) {
-		QuadTree* closest_tree = tree->GetData(tree, get_global_position());
-		//target = closest_tree->leaf.data.front();
-		if (!closest_tree->leaf.data.empty()) {
-			target = closest_tree->leaf.data.front();
-			//Godot::print("Found my target!");
-		}
-		else {
-			target = nullptr;
+		QuadTree* closest_tree = tree->GetData(get_global_position());
+		if (closest_tree) {
+			if (!closest_tree->leaf.data.empty()) {
+				target = closest_tree->leaf.data.front();
+				//Godot::print("Found my target!");
+			}
+			else {
+				//Godot::print("no target");
+				target = nullptr;
+			}
 		}
 	}
 }
@@ -104,8 +99,8 @@ bool EnemyMedic::is_target_exist() {
 	if (target == nullptr) {
 		return false;
 	}
-	std::vector<Node2D*> temp = Manager::manager_singleton->enemies;
-	if (std::find(temp.begin(), temp.end(), target) != temp.end()) {
+	std::vector<Node2D*> enemy = Manager::manager_singleton->enemies;
+	if (std::find(enemy.begin(), enemy.end(), target) != enemy.end()) {
 		return true;
 	}
 	else {
