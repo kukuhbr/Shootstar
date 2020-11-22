@@ -59,9 +59,9 @@ void EnemyMedic::_process(float delta) {
 		HealTarget();
 		CheckTargetHealer();
 	}
-	if (motion == Vector2(0, 0)) {
+	/*if (motion == Vector2(0, 0)) {
 		Godot::print("{0} is idle", get_global_position());
-	}
+	}*/
 	move_and_slide(motion);
 }
 
@@ -103,7 +103,7 @@ void EnemyMedic::set_target(Node2D* _target) {
 			Object::cast_to<Enemy>(_target)->modify_healer(1);
 		}
 		else {
-			Godot::print("sub fail healer is {0}", Object::cast_to<Enemy>(target)->healer);
+			//Godot::print("sub fail healer is {0}", Object::cast_to<Enemy>(target)->healer);
 			target = nullptr;
 		}
 	}
@@ -120,13 +120,32 @@ void EnemyMedic::unset_target() {
 	target = nullptr;
 }
 
-Node2D* EnemyMedic::get_enemy(QuadTree* source) {
+Node2D* EnemyMedic::get_enemy(QuadTree* source, int mode) {
 	QuadTree* quad = source->GetData(get_global_position());
 	if (quad) {
 		if (!quad->leaf.data.empty()) {
-			real_t min;
-			Node2D* temp_target = nullptr;
 			vector<Node2D*> candidate = quad->leaf.data;
+			Vector2 me = get_global_position();
+			sort(candidate.begin(), candidate.end(),
+				[me](const Node2D* a, const Node2D* b) -> bool
+			{
+				real_t a_dist = a->get_global_position().distance_to(me);
+				real_t b_dist = b->get_global_position().distance_to(me);
+				return a < b;
+			});
+			if (mode == 0) {
+				return candidate.front();
+			}
+			for (auto it = candidate.begin(); it != candidate.end(); ++it) {
+				//Godot::print("{0} at distance {1}", (*it)->get_global_position(), distance_to(*it));
+				if (Object::cast_to<Enemy>(*it)->healer < 2) {
+					return *it;
+				}
+			}
+			return nullptr;
+
+			/*real_t min;
+			Node2D* temp_target = nullptr;
 			for (auto i = candidate.begin(); i != candidate.end(); ++i) {
 				if (i == candidate.begin()) {
 					min = distance_to(*i);
@@ -139,12 +158,7 @@ Node2D* EnemyMedic::get_enemy(QuadTree* source) {
 					}
 				}
 			}
-			/*if (temp_target) {
-				Godot::print("from {0} get {1}", get_global_position(), temp_target->get_global_position());
-				Godot::print("pivot {0}", quad->pivot);
-				Godot::print("Quadreant {0} to {1}", quad->FindQuadrant(get_global_position()), quad->FindQuadrant(temp_target->get_global_position()));
-			}*/
-			return temp_target;
+			return temp_target;*/
 		}
 		else {
 			return nullptr;
@@ -158,22 +172,21 @@ void EnemyMedic::FindTarget() {
 	QuadTree* tree = Manager::manager_singleton->injured_tree;
 	if (tree) {
 		//Godot::print("find target, get injured enemy");
-		if (get_enemy(tree)) {
-			set_target_injured(get_enemy(tree));
-		} else { Godot::print("no injured enemy"); }
+		if (get_enemy(tree, 0)) {
+			set_target_injured(get_enemy(tree, 0));
+		} //else { Godot::print("no injured enemy"); }
 		if (!is_target_exist()) {
 			// Fallback to closest healthy enemy
 			tree = Manager::manager_singleton->healthy_tree;
 			if (tree) {
-				set_target(get_enemy(tree));
-				if (is_target_exist()) {
-					Godot::print("{0} find target, get healthy enemy", get_global_position());
+				set_target(get_enemy(tree, 1));
+				/*if (is_target_exist()) {
+					Godot::print("{0} find target, get {1} enemy", get_global_position(), target->get_global_position());
 				}
 				else {
 					Godot::print("set healthy enemy fail");
-				}
-				
-			} else { Godot::print("healthy tree not found"); }
+				}*/
+			} //else { Godot::print("healthy tree not found"); }
 		}// else { Godot::print("target is available"); }
 	}
 }

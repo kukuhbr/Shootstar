@@ -41,7 +41,7 @@ namespace godot {
 		// Gameplay methods
 	private:
 		real_t distance_to(Node2D*);
-		Node2D* get_enemy(QuadTree*);
+		Node2D* get_enemy(QuadTree*, int);
 		void set_target(Node2D*);
 		void set_target_injured(Node2D*);
 		void unset_target();
