@@ -77,6 +77,15 @@ void Enemy::heal(int val) {
 	}
 }
 
+void Enemy::modify_healer(int val) {
+	if (val == 1) {
+		healer += 1;
+	}
+	else {
+		healer -= 1;
+	}
+}
+
 void Enemy::kill() {
 	hp = 0;
 	Manager::manager_singleton->remove_child(this, 2);

@@ -12,7 +12,7 @@ bg_color = Color( 0.745098, 0.223529, 0.223529, 1 )
 
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 2 )
-speed = 220
+speed = 0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, 0.374573 )

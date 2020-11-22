@@ -38,6 +38,7 @@ namespace godot {
 		void FollowPlayer();
 		void heal(int);
 		void hit(int);
+		void modify_healer(int);
 		void kill();
 		void ProcessCollision();
 	};

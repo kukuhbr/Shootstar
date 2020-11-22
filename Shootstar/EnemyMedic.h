@@ -48,6 +48,7 @@ namespace godot {
 	public:
 		void on_timeout();
 		bool is_target_exist();
+		bool is_injured_exist();
 		void FindTarget();
 		void FollowTarget();
 		void HealTarget();

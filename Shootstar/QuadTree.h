@@ -15,7 +15,6 @@ namespace godot {
 		int height;
 		int width;
 		int depth;
-		int num_instance;
 		bool has_leaf;
 		Vector2 dimension;
 		std::vector<QuadTree*> partition;
@@ -24,6 +23,7 @@ namespace godot {
 		QuadTree(int, int, int, Vector2, int);
 		~QuadTree();
 		QuadTreeLeaf leaf;
+		int num_instance;
 
 	private:
 	public:

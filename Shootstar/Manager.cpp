@@ -52,13 +52,12 @@ void Manager::CollectInjured() {
 			injured_tree->FillTree(*it);
 		}
 		else {
-			if (Object::cast_to<Enemy>(*it)->healer < 2) {
+			/*if (Object::cast_to<Enemy>(*it)->healer < 2) {
 				healthy_tree->FillTree(*it);
-			}
+			}*/
+			healthy_tree->FillTree(*it);
 		}
 	}
-	//Godot::print("total enemy {0}", enemies.size());
-	//healthy_tree->Print();
 }
 
 void Manager::append_child(Node2D* child, int type) {
