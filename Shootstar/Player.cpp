@@ -40,7 +40,6 @@ void Player::_process(float delta) {
 		TriggerShoot();
 		UpgradePlayer();
 	}
-	//Godot::print(get_global_position());
 }
 
 void Player::on_timeout() {
@@ -113,7 +112,7 @@ void Player::UpgradePlayer() {
 		bullet_frequency = 0.12f;
 	}
 	else if (1500 <= score < 4000) {
-		bullet_frequency = 0.08;
+		bullet_frequency = 0.08f;
 	}
 	else if (4000 <= score) {
 		bullet_frequency = float(320 / float(score));

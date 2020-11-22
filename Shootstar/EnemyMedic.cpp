@@ -59,9 +59,6 @@ void EnemyMedic::_process(float delta) {
 		HealTarget();
 		CheckTargetHealer();
 	}
-	/*if (motion == Vector2(0, 0)) {
-		Godot::print("{0} is idle", get_global_position());
-	}*/
 	move_and_slide(motion);
 }
 
@@ -103,7 +100,6 @@ void EnemyMedic::set_target(Node2D* _target) {
 			Object::cast_to<Enemy>(_target)->modify_healer(1);
 		}
 		else {
-			//Godot::print("sub fail healer is {0}", Object::cast_to<Enemy>(target)->healer);
 			target = nullptr;
 		}
 	}
@@ -115,7 +111,6 @@ void EnemyMedic::set_target(Node2D* _target) {
 void EnemyMedic::unset_target() {
 	if (is_target_exist()) {
 		Object::cast_to<Enemy>(target)->modify_healer(0);
-		//Godot::print("unsubbed {0}", Object::cast_to<Enemy>(target)->healer);
 	}
 	target = nullptr;
 }
@@ -137,7 +132,6 @@ Node2D* EnemyMedic::get_enemy(QuadTree* source, int mode) {
 				return candidate.front();
 			}
 			for (auto it = candidate.begin(); it != candidate.end(); ++it) {
-				//Godot::print("{0} at distance {1}", (*it)->get_global_position(), distance_to(*it));
 				if (Object::cast_to<Enemy>(*it)->healer < 2) {
 					return *it;
 				}
@@ -160,10 +154,9 @@ Node2D* EnemyMedic::get_enemy(QuadTree* source, int mode) {
 			}
 			return temp_target;*/
 		}
-		else {
-			return nullptr;
-		}
+		return nullptr;
 	}
+	return nullptr;
 }
 
 void EnemyMedic::FindTarget() {
@@ -171,23 +164,16 @@ void EnemyMedic::FindTarget() {
 	// Find closest injured enemy
 	QuadTree* tree = Manager::manager_singleton->injured_tree;
 	if (tree) {
-		//Godot::print("find target, get injured enemy");
 		if (get_enemy(tree, 0)) {
 			set_target_injured(get_enemy(tree, 0));
-		} //else { Godot::print("no injured enemy"); }
+		} 
 		if (!is_target_exist()) {
 			// Fallback to closest healthy enemy
 			tree = Manager::manager_singleton->healthy_tree;
 			if (tree) {
 				set_target(get_enemy(tree, 1));
-				/*if (is_target_exist()) {
-					Godot::print("{0} find target, get {1} enemy", get_global_position(), target->get_global_position());
-				}
-				else {
-					Godot::print("set healthy enemy fail");
-				}*/
-			} //else { Godot::print("healthy tree not found"); }
-		}// else { Godot::print("target is available"); }
+			}
+		}
 	}
 }
 
@@ -232,7 +218,6 @@ void EnemyMedic::HealTarget() {
 void EnemyMedic::CheckTargetHealer() {
 	if (Object::cast_to<Enemy>(target)->hp == 50) {
 		if (Object::cast_to<Enemy>(target)->healer > 2) {
-			//Godot::print("target hp full, unset target");
 			unset_target();
 		}
 	}

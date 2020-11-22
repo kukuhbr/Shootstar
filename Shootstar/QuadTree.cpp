@@ -23,14 +23,8 @@ QuadTree::QuadTree(int _width, int _height, int _depth, Vector2 _pivot, int quad
 		this->pivot += Vector2(-_width, -_height);
 	}
 	has_leaf = false;
-	//Godot::print("{0} {1} {2} {3}", width, height, depth, pivot);
-	if (depth == 0) {
-		//Godot::print("We're at leaf of quadrant {0}", quadrant);
-		//leaf.data.reserve(5);
-	} else {
-		//Godot::print("This quadrant {0} has pivot {1}", quadrant, pivot);
+	if (depth != 0) {
 		for (int i = 0; i < 4; i++) {
-			//Godot::print("From depth {0} we traverse quad {1}", depth, i);
 			partition.push_back(new QuadTree(_width / 2, _height / 2, _depth - 1, pivot, i));
 		}
 	}
