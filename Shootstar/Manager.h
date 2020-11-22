@@ -27,7 +27,6 @@ namespace godot {
 		// Gameplay variables
 	private:
 		Timer* delay;
-		bool is_make_tree = true;
 	public:
 		static Manager *manager_singleton;
 		std::vector<Node2D*> bullets;
@@ -35,6 +34,7 @@ namespace godot {
 		std::vector<Node2D*> medics;
 		std::vector<Node2D*> injured;
 		QuadTree* injured_tree;
+		QuadTree* healthy_tree;
 		int x_dim = 1500;
 		int y_dim = 900;
 	// Gameplay methods

@@ -30,6 +30,7 @@ namespace godot {
 		int hp = 50;
 		int max_hp = 50;
 		int speed = 250;
+		int healer = 0;
 		Node2D *player;
 		// Gameplay methods
 	private:

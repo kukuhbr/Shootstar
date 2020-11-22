@@ -18,16 +18,16 @@ namespace godot {
 		int num_instance;
 		bool has_leaf;
 		Vector2 dimension;
-		Vector2 pivot;
 		std::vector<QuadTree*> partition;
 	public:
+		Vector2 pivot;
 		QuadTree(int, int, int, Vector2, int);
 		~QuadTree();
 		QuadTreeLeaf leaf;
 
 	private:
-		int FindQuadrant(Vector2);
 	public:
+		int FindQuadrant(Vector2);
 		static void DestroyRecursive(QuadTree*);
 		static void ClearTreeRecursive(QuadTree*);
 		void FillTree(Node2D*);

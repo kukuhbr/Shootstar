@@ -18,7 +18,7 @@ void Manager::_process(float delta) {
 void Manager::_ready() {
 	Manager::manager_singleton = this;
 	injured_tree = new QuadTree(x_dim, y_dim, 2, Vector2(0, 0), -1);
-
+	healthy_tree = new QuadTree(x_dim, y_dim, 2, Vector2(0, 0), -1);
 	delay = Timer::_new();
 	delay->connect("timeout", this, "on_timeout");
 	delay->set_wait_time(1.0f);
@@ -28,8 +28,7 @@ void Manager::_ready() {
 }
 
 void Manager::on_timeout() {
-	QuadTree::ClearTreeRecursive(injured_tree);
-	is_make_tree = true;
+	//CollectInjured();
 }
 
 Manager::Manager() {
@@ -40,30 +39,26 @@ Manager::~Manager() {
 }
 
 void Manager::CollectInjured() {
-	//Clear healthy enemies
-	/*auto iter = injured.begin();
-	while (iter != injured.end()) {
-		if (Object::cast_to<Enemy>(*iter)->hp == 50) {
-			iter = injured.erase(iter);
-		} else {
-			++iter;
-		}
-	}*/
-	injured.clear();
-	//Push to Injured
+	QuadTree::ClearTreeRecursive(injured_tree);
+	QuadTree::ClearTreeRecursive(healthy_tree);
+	int i = 0;
 	for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+		i++;
+		//Godot::print("add enemy {0}", i);
 		if (Object::cast_to<Enemy>(*it)->hp < 50) {
-			injured.push_back(*it);
-		}
-	}
-	//Create Injured QuadTree
-	if (injured.size() > 0 && is_make_tree) {
-		is_make_tree = false;
-		for (auto it = injured.begin(); it != injured.end(); ++it) {
+			/*if (Object::cast_to<Enemy>(*it)->healer < 2) {
+				injured_tree->FillTree(*it);
+			}*/
 			injured_tree->FillTree(*it);
 		}
-		injured_tree->Print();
+		else {
+			if (Object::cast_to<Enemy>(*it)->healer < 2) {
+				healthy_tree->FillTree(*it);
+			}
+		}
 	}
+	//Godot::print("total enemy {0}", enemies.size());
+	//healthy_tree->Print();
 }
 
 void Manager::append_child(Node2D* child, int type) {

@@ -5,6 +5,7 @@ QuadTree::QuadTree(int _width, int _height, int _depth, Vector2 _pivot, int quad
 	width = _width;
 	height = _height;
 	depth = _depth;
+	pivot = _pivot;
 	num_instance = 0;
 	if (quadrant == -1) {
 		pivot = Vector2(0, 0);
@@ -83,7 +84,7 @@ void QuadTree::FillTree(Node2D* node) {
 	QuadTree* reference = this;
 	int iter = depth;
 	while (iter != 0) {
-		reference = reference->partition[FindQuadrant(position)];
+		reference = reference->partition[reference->FindQuadrant(position)];
 		reference->num_instance++;
 		iter--;
 	}

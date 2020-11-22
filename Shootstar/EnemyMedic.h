@@ -3,6 +3,7 @@
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
 #include <Node2D.hpp>
+#include <RandomNumberGenerator.hpp>
 #include <vector>
 #include "Manager.h"
 #include "Player.h"
@@ -34,19 +35,23 @@ namespace godot {
 		Timer* heal_delay;
 		int heal_power = 5;
 		real_t heal_frequency = 0.5;
-		int speed = 300;
+		int speed = 350;
 		Node2D *player;
 		Node2D *target;
 		// Gameplay methods
 	private:
 		real_t distance_to(Node2D*);
+		Node2D* get_enemy(QuadTree*);
+		void set_target(Node2D*);
+		void set_target_injured(Node2D*);
+		void unset_target();
 	public:
 		void on_timeout();
 		bool is_target_exist();
 		void FindTarget();
 		void FollowTarget();
 		void HealTarget();
-		void CheckTargetHealth();
+		void CheckTargetHealer();
 		void hit(int);
 		void kill();
 	};

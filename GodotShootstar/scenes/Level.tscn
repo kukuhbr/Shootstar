@@ -27,10 +27,11 @@ position = Vector2( -400, 200 )
 
 [node name="EnemyMedic" parent="." instance=ExtResource( 5 )]
 position = Vector2( 278, -78 )
+heal_range = 60.0
 
 [node name="EnemyMedic2" parent="." instance=ExtResource( 5 )]
 position = Vector2( -370, -225 )
-heal_range = 50.0
+heal_range = 60.0
 
 [node name="Walls" parent="." instance=ExtResource( 4 )]
 
