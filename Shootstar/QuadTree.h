@@ -19,7 +19,6 @@ namespace godot {
 		int num_instance;
 		bool has_leaf;
 		Vector2 pivot;
-		Vector2 dimension;
 		std::vector<QuadTree*> partition;
 	public:
 		QuadTree(int, int, int, Vector2, int);
