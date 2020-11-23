@@ -137,22 +137,6 @@ Node2D* EnemyMedic::get_enemy(QuadTree* source, int mode) {
 				}
 			}
 			return nullptr;
-
-			/*real_t min;
-			Node2D* temp_target = nullptr;
-			for (auto i = candidate.begin(); i != candidate.end(); ++i) {
-				if (i == candidate.begin()) {
-					min = distance_to(*i);
-					temp_target = *i;
-				}
-				else {
-					if (distance_to(*i) < min) {
-						min = distance_to(*i);
-						temp_target = *i;
-					}
-				}
-			}
-			return temp_target;*/
 		}
 		return nullptr;
 	}
