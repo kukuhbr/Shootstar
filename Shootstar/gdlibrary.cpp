@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Level.h"
 #include "Manager.h"
+#include "Profiler.h"
 
 using namespace godot;
 
@@ -23,4 +24,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
 	register_class<Bullet>();
 	register_class<Level>();
 	register_class<Manager>();
+	register_class<Profiler>();
 }

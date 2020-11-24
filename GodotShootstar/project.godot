@@ -22,6 +22,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Manager="*res://scripts/Manager.gdns"
+Profiler="*res://scripts/Profiler.gdns"
 
 [input]
 

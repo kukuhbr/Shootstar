@@ -1,5 +1,6 @@
 #include "EnemyMedic.h"
 #include "Commons.h"
+#include "Profiler.h"
 
 void EnemyMedic::_register_methods() {
 	register_method((char*)"_process", &EnemyMedic::_process);
@@ -33,6 +34,7 @@ void EnemyMedic::_ready() {
 	heal_delay->set_one_shot(false);
 	add_child(heal_delay);
 	heal_delay->start();
+	//Profiler::profiler_singleton->CreateNewProfile(0, "EnemyMedic:FindTarget");
 }
 
 EnemyMedic::EnemyMedic() {
@@ -48,13 +50,11 @@ void EnemyMedic::on_timeout() {
 }
 
 void EnemyMedic::_process(float delta) {
+	FindTarget();
 	if (is_target_exist()) {
 		FollowTarget();
 		HealTarget();
 		CheckTargetHealth();
-	}
-	else {
-		FindTarget();
 	}
 	move_and_slide(motion);
 }
@@ -78,6 +78,7 @@ void EnemyMedic::kill() {
 }
 
 void EnemyMedic::FindTarget() {
+	//time_point start = Profiler::profiler_singleton->Record(0);
 	std::vector<Node2D*> all_enemy = Manager::manager_singleton->enemies;
 	std::vector<Node2D*> injured;
 	real_t min;
@@ -104,6 +105,8 @@ void EnemyMedic::FindTarget() {
 			}
 		}
 		target = temp_target;
+		//time_point end = Profiler::profiler_singleton->Record(0);
+		//Profiler::profiler_singleton->RecordTime(0, end, start);
 	}
 }
 
