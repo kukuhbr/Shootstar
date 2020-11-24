@@ -1,5 +1,4 @@
 # Shootstar
-======
 This is a Godot Engine top-down-shooter created for Gameloft C++ Optimization Competition.
 
 In `optimization` branch EnemyMedic AI is implemented with QuadTree for more efficient spatial search.
