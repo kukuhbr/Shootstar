@@ -4,6 +4,8 @@ This is a Godot Engine top-down-shooter created for Gameloft C++ Optimization Co
 
 In `optimization` branch EnemyMedic AI is implemented with QuadTree for more efficient spatial search.
 
+Algorithm explanation is in ppt file
+
 ## Prerequisite
 - Godot v3.2.3
 - Visual Studio 2017
