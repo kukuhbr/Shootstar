@@ -1,5 +1,6 @@
 #include "EnemyMedic.h"
 #include "Commons.h"
+#include "Profiler.h"
 
 void EnemyMedic::_register_methods() {
 	register_method((char*)"_process", &EnemyMedic::_process);
@@ -35,6 +36,7 @@ void EnemyMedic::_ready() {
 	heal_delay->set_one_shot(false);
 	add_child(heal_delay);
 	heal_delay->start();
+	Profiler::profiler_singleton->CreateNewProfile(0, "EnemyMedic:FindTarget");
 }
 
 EnemyMedic::EnemyMedic() {
@@ -144,6 +146,7 @@ Node2D* EnemyMedic::get_enemy(QuadTree* source, int mode) {
 }
 
 void EnemyMedic::FindTarget() {
+	time_point start = Profiler::profiler_singleton->Record(0);
 	unset_target();
 	// Find closest injured enemy
 	QuadTree* tree = Manager::manager_singleton->injured_tree;
@@ -159,6 +162,8 @@ void EnemyMedic::FindTarget() {
 			}
 		}
 	}
+	time_point end = Profiler::profiler_singleton->Record(0);
+	Profiler::profiler_singleton->RecordTime(0, end, start);
 }
 
 

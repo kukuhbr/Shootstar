@@ -14,9 +14,6 @@ namespace godot {
 	
 	struct Profile {
 		std::vector<duration> recorded_durations;
-		time_point temp_start;
-		time_point temp_end;
-		int length;
 		String name;
 	};
 
@@ -38,7 +35,7 @@ namespace godot {
 	private:
 		std::map<int, Profile> recorded_profiles;
 		bool is_profiling = true;
-		bool is_profile_once = true;
+		bool is_profile_once = false;
 		bool is_report_brief = true;
 		real_t profile_time = 30.0f;
 		Timer* profile_timer;
@@ -51,8 +48,8 @@ namespace godot {
 		void PrintDetail(Profile);
 		void PrintSummary(Profile);
 		void CreateNewProfile(int, String);
-		void RecordStart(int);
-		void RecordEnd(int);
+		time_point Record(int);
+		void RecordTime(int, time_point, time_point);
 	};
 }
 
